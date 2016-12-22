@@ -1,0 +1,5 @@
+C:\Users\Kunal Soni\Documents\visual studio 2013\Projects\XML Genrater\XML Genrater\bin\Debug\ConsoleApplication.exe
+C:\Users\Kunal Soni\Documents\visual studio 2013\Projects\XML Genrater\XML Genrater\bin\Debug\ConsoleApplication.pdb
+C:\Users\Kunal Soni\Documents\visual studio 2013\Projects\XML Genrater\XML Genrater\obj\Debug\XML Genrater.csprojResolveAssemblyReference.cache
+C:\Users\Kunal Soni\Documents\visual studio 2013\Projects\XML Genrater\XML Genrater\obj\Debug\ConsoleApplication.exe
+C:\Users\Kunal Soni\Documents\visual studio 2013\Projects\XML Genrater\XML Genrater\obj\Debug\ConsoleApplication.pdb

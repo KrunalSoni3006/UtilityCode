@@ -1,0 +1,4 @@
+C:\Users\Kunal Soni\Documents\Visual Studio 2013\Projects\XML Genrater\RedirectXMLGenrater\bin\Debug\RedirectXMLGenrater.exe
+C:\Users\Kunal Soni\Documents\Visual Studio 2013\Projects\XML Genrater\RedirectXMLGenrater\bin\Debug\RedirectXMLGenrater.pdb
+C:\Users\Kunal Soni\Documents\Visual Studio 2013\Projects\XML Genrater\RedirectXMLGenrater\obj\Debug\RedirectXMLGenrater.exe
+C:\Users\Kunal Soni\Documents\Visual Studio 2013\Projects\XML Genrater\RedirectXMLGenrater\obj\Debug\RedirectXMLGenrater.pdb
