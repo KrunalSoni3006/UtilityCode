@@ -7,16 +7,21 @@ using System.IO;
 
 namespace ConsoleApplication
 {
+    public class URLPARTS
+    {
+        public string URLHOST = string.Empty;
+        public string URLPATH = string.Empty;
+        public string QueryString = string.Empty;
+        public Dictionary<string, string> QueryStringlist = new Dictionary<string, string>();
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            bool flag = false;
             string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\URL Collection";
             string Sourcepath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\URL Collection\FromURLS.txt";
             string Destinationpath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\URL Collection\ToURLS.txt";
             string Output = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\URL Collection\output.xml";
-
             Directory.CreateDirectory(path);
             //File.Create(Sourcepath);
             //File.Create(Destinationpath);
@@ -31,23 +36,61 @@ namespace ConsoleApplication
             {
                 Console.WriteLine("");
                 Console.WriteLine("KaBOOM...!");
-                List<string> AllSourceUrl = File.ReadAllLines(Sourcepath).ToList();
+                List<Uri> AllSourceUrl = File.ReadAllLines(Sourcepath).Select(x => new Uri(x)).ToList();
                 List<string> AlldDesteUrl = File.ReadAllLines(Destinationpath).ToList();
+                Dictionary<URLPARTS, string> URLMap = new Dictionary<URLPARTS, string>();
+                for (int i = 0; i < AlldDesteUrl.Count; i++)
+                {
+                    URLPARTS _URLPARTS = new URLPARTS();
+                    _URLPARTS.URLHOST = AllSourceUrl[i].Host;
+                    _URLPARTS.URLPATH = AllSourceUrl[i].AbsolutePath;
+
+                    if (AllSourceUrl[i].ToString().Contains('&') && AllSourceUrl[i].ToString().Contains('=') && AllSourceUrl[i].ToString().Contains('?'))
+                        _URLPARTS.QueryStringlist = AllSourceUrl[i].Query.Remove(0, 1).Split('&').Select(part => part.Split('=')).ToDictionary(split => split[0], split => split[1]);
+                    if (AllSourceUrl[i].ToString().Contains('?'))
+                        _URLPARTS.QueryString = AllSourceUrl[i].Query.Remove(0, 1);
+                    URLMap.Add(_URLPARTS, AlldDesteUrl[i]);
+                }
+
+
                 if (AlldDesteUrl.Count == AllSourceUrl.Count)
                 {
                     Console.WriteLine("Files Read Successfully Now Url Generation Is Began");
                     try
                     {
-                        AllSourceUrl = AllSourceUrl.Select(ASU => ASU.Remove(0, 1)).ToList();
-                        AlldDesteUrl = AlldDesteUrl.Select(ASU => ASU.Remove(0, 22)).ToList();
+                        //AllSourceUrl = AllSourceUrl.Select(ASU => ASU.Remove(0, 1)).ToList();
+                        //AlldDesteUrl = AlldDesteUrl.Select(ASU => ASU.Remove(0, 25)).ToList();
+                        //var count = 0;
+                        //foreach (var a in AlldDesteUrl)
+                        //{
+                        //    try
+                        //    {
+                        //        a.Remove(0, 25);
+                        //        count++;
+                        //    }
+                        //    catch
+                        //    {
+                        //        var b = a;
+                        //        var c = count;
+                        //    }
+                        //}
 
                         //genrateXML(AllSourceUrl, AlldDesteUrl);
 
+
+                        int totalcount = 0;
                         for (int i = 0; i < AlldDesteUrl.Count; i++)
                         {
-                            File.AppendAllText(Output, genrateXML(AllSourceUrl[i], AlldDesteUrl[i]) + Environment.NewLine);
+
+                            if (URLMap.Keys.ElementAt(i).ToString().StartsWith("http://"))
+                            {
+                                totalcount++;
+                                //File.AppendAllText(Output, genrateXML(URLMap.Keys.ElementAt(i), URLMap.Values.ElementAt(i)) + Environment.NewLine);
+
+                            }
                         }
-                        flag = true;
+
+
                     }
                     catch (Exception ex)
                     {
@@ -79,20 +122,37 @@ namespace ConsoleApplication
                 }
             }
         }
+        public HttpStatusCode GetHeaders(string url)
+        {
+            HttpStatusCode result = default(HttpStatusCode);
+
+            var request = HttpWebRequest.Create(url);
+            request.Method = "HEAD";
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response != null)
+                {
+                    result = response.StatusCode;
+                    response.Close();
+                }
+            }
+
+            return result;
+        }
 
         private static string genrateXML(string AllSourceUrl, string AlldDesteUrl)
         {
 
             XmlDocument xmlDoc = new XmlDocument();
 
-            XmlNode Rule = xmlDoc.CreateElement("Rule");
+            XmlNode Rule = xmlDoc.CreateElement("rule");
             xmlDoc.AppendChild(Rule);
 
-            XmlAttribute Name = xmlDoc.CreateAttribute("Name");
+            XmlAttribute Name = xmlDoc.CreateAttribute("name");
             Name.Value = "redirect " + AllSourceUrl + " To " + AlldDesteUrl;
             Rule.Attributes.Append(Name);
 
-            XmlAttribute Enabled = xmlDoc.CreateAttribute("Enabled");
+            XmlAttribute Enabled = xmlDoc.CreateAttribute("enabled");
             Enabled.Value = "true";
             Rule.Attributes.Append(Enabled);
 
@@ -100,20 +160,20 @@ namespace ConsoleApplication
             stopProcessing.Value = "true";
             Rule.Attributes.Append(stopProcessing);
 
-            XmlNode Match = xmlDoc.CreateElement("Match");
-            XmlAttribute Url = xmlDoc.CreateAttribute("Url");
-            Url.Value = "(.*)" + AllSourceUrl;
+            XmlNode Match = xmlDoc.CreateElement("match");
+            XmlAttribute Url = xmlDoc.CreateAttribute("url");
+            Url.Value = AllSourceUrl;
             Match.Attributes.Append(Url);
             Rule.AppendChild(Match);
 
-            XmlNode Action = xmlDoc.CreateElement("Action");
+            XmlNode Action = xmlDoc.CreateElement("action");
 
             XmlAttribute type = xmlDoc.CreateAttribute("type");
-            XmlAttribute ActionUrl = xmlDoc.CreateAttribute("Url");
+            XmlAttribute ActionUrl = xmlDoc.CreateAttribute("url");
             XmlAttribute redirectType = xmlDoc.CreateAttribute("redirectType");
 
             type.Value = "Redirect";
-            ActionUrl.Value = "{R:1}" + AlldDesteUrl;
+            ActionUrl.Value = AlldDesteUrl;
             redirectType.Value = "Permanent";
 
             Action.Attributes.Append(type);
