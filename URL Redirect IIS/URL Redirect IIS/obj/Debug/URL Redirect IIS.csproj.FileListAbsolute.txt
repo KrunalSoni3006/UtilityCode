@@ -1,0 +1,9 @@
+c:\users\kunal\documents\visual studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\bin\Debug\URL Redirect IIS.exe.config
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\bin\Debug\URL Redirect IIS.exe
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\bin\Debug\URL Redirect IIS.pdb
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\obj\Debug\URL Redirect IIS.csprojResolveAssemblyReference.cache
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\obj\Debug\URL_Redirect_IIS.Form1.resources
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\obj\Debug\URL_Redirect_IIS.Properties.Resources.resources
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\obj\Debug\URL Redirect IIS.csproj.GenerateResource.Cache
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\obj\Debug\URL Redirect IIS.exe
+C:\Users\Kunal\Documents\Visual Studio 2015\Projects\URL Redirect IIS\URL Redirect IIS\obj\Debug\URL Redirect IIS.pdb
